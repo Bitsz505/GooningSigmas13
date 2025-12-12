@@ -1,0 +1,23 @@
+#!/bin/bash
+
+#Check for root privileges
+if [ "$EUID" -ne 0 ]; then
+	echo "Please run as root (use sudo)."
+	exit 1
+fi
+
+echo "Attempting to stop and disable the OpenSSH server (sshd)..."
+
+#1. Stop the currently running SSH service
+systemctl stop ssh
+
+#2. Disable the SSH service from starting automatically at boot
+systemctl disable ssh
+
+#3. Check the status to verify
+echo "---Verification Status---"
+systemctl status ssh | grep -E
+"Active:|Loaded:"
+
+echo "OpenSSH server (sshd) has been stopped and disabled from starting at boot."
+echo "**WARNING: Remote access to this machine is now blocked.**"
