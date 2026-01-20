@@ -12,7 +12,7 @@ echo "[+] Enabling IPc4 TCP SYN cookies
 sysctl -w net.ipv4.tcp_syncookies=1
 sed -i 's/^net.ipv4.tcp_syncookies./net.ipv4.tcp_syncookies=1/' /etc/sysctl.conf
 
-echo "Attempting to start and enable the Uncomplicated Firewall (ufw)..."
+echo "Attempting to start and enable the Uncomplicated Firewall..."
 
 #1. Start ufw automatically at boot
 systemctl enable ufw
@@ -26,6 +26,7 @@ systemctl status ufw grep -E
 "Active:|Loaded:"
 
 echo "Ts is up and running"
+
 
 
 
