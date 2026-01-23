@@ -79,6 +79,15 @@ do
       read 
       ;;
 
+    "Check for viruses")
+      dos2unix virus_checker.sh
+      chmod +x virus_checker.sh
+      echo "Running virus check..."
+      #Calling virus checker sceipr
+      ./virus_checker.sh
+      echo "Press Enter to return to menu..."
+      read 
+      ;;
         
         
       
