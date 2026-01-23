@@ -68,6 +68,16 @@ do
       echo "Press Enter to return to menu..."
       read 
       ;;
+      
+    "Update System")
+      dos2unix system_updater.sh
+      chmod +x system_updater.sh
+      echo "Updating your system..."
+      #Calling sys update script
+      ./system_updater.sh
+      echo "Press Enter to return to menu..."
+      read 
+      ;;
 
         
         
