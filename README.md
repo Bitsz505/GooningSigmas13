@@ -1,1 +1,2 @@
 Here's some cyberpatriot scripts I got. They're not very efficient but I plan to keep working on them to make em effective. Btw, use dos2unix command beause these scripts were written on windows.
+firescript.sh is the main script. It does require the other scripts to work but you don't have to actually do anything with them.
