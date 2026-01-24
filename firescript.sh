@@ -88,7 +88,21 @@ do
       echo "Press Enter to return to menu..."
       read 
       ;;
-        
-        
       
+    "Quit")
+      echo "Exiting."
+      break
+      ;;
       
+    *)
+      echo "Invalid. Please try again."
+      ;;
+      
+  esac
+  clear
+  echo"==============================="
+  echo"     LINUX MANAGEMENT MENU     "
+  echo"==============================="
+  echo"Current Selection: $opt (Last Task Completed)"
+  echo"-------------------------------"
+done
