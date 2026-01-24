@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #---Check for root---
-if ["$EUID" -ne 0]; then 
+if [ "$EUID" -ne 0 ]; then 
   echo "Please run this menu with sudo: sudo $0"
   exit 1
 fi
@@ -12,11 +12,11 @@ options=("Delete Software" "Disable SSH" "Enable TCP Cookies" "Enable UFW" "Enac
 
 #---Menu Loop---
 clear
-echo"==============================="
-echo"     LINUX MANAGEMENT MENU     "
-echo"==============================="
+echo "==============================="
+echo "     LINUX MANAGEMENT MENU     "
+echo "==============================="
 
-select opt in "${option[@]}"
+select opt in "${options[@]}"
 do
   case $opt in
     "Delete Software")
@@ -79,7 +79,7 @@ do
       read 
       ;;
 
-    "Check for viruses")
+    "Check for Viruses")
       dos2unix virus_checker.sh
       chmod +x virus_checker.sh
       echo "Running virus check..."
@@ -100,9 +100,9 @@ do
       
   esac
   clear
-  echo"==============================="
-  echo"     LINUX MANAGEMENT MENU     "
-  echo"==============================="
-  echo"Current Selection: $opt (Last Task Completed)"
-  echo"-------------------------------"
+  echo "==============================="
+  echo "     LINUX MANAGEMENT MENU     "
+  echo "==============================="
+  echo "Current Selection: $opt (Last Task Completed)"
+  echo "-------------------------------"
 done
