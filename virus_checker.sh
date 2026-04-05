@@ -6,16 +6,59 @@ if [ "$EUID" -ne 0 ]; then
     exit 1
 fi
 
-# Fix 2: Added '-y' so the script doesn't hang waiting for user confirmation
-apt install -y clamav
-apt install -y chkrootkit # Fix 3: Corrected spelling from 'chrootkit' to 'chkrootkit'
+#1. Update clamAV definitions
+echo "Updating ClamAV definitions..."
+echo ">>> Updating ClamAV definitions (freshclam)..."
+#first we must stop the service so that freshclam can run
+systemctl stop clamav-freshclam > /dev/null 2>&1
+freshclam
+systemctl start clamav-freshclam > /dev/null 2>&1
+echo ">>> ClamAV definitions updated successfully."
 
-echo "Starting ClamAV scan..."
-# Optimization 1: 'tee' writes the full scan to the file, and passes the output to grep for the terminal
-clamscan -r / | tee clamscanoutput.txt | grep 'FOUND'
+#2. Run chkrootkit
+echo "Hunting for rootkits with chkrootkit..."
+chkrootkit -q
+echo ">>> chkrootkit scan completed. If any rootkits were found, check their contents."
 
-echo "Starting chkrootkit scan..."
-# Optimization 2: 'tee' outputs findings directly to the terminal AND saves to the file
-chkrootkit -q | tee rootkitoutput.txt
+# 3. Directory Selection for ClamAV
+echo "What would you like to scan for viruses?"
+PS3="Choose a scan area (1-4): "
+scan_options=("Scan Home Directory (/home)" "Scan Full System (/)" "Scan Custom Path" "Skip Virus Scan")
 
-echo "Scans complete!"
+select choice in "${scan_options[@]}"
+do
+    case $choice in
+        "Scan Home Directory (/home)")
+            TARGET="/home"
+            break
+            ;;
+        "Scan Full System (/)")
+            echo "WARNING: Full system scan can take a long time."
+            TARGET="/"
+            break
+            ;;
+        "Scan Custom Path")
+            read -p "Enter the full path you want to scan: " TARGET
+            # Check if the directory exists
+            if [ ! -d "$TARGET" ]; then
+                echo "Error: $TARGET is not a valid directory. Try again."
+                continue
+            fi
+            break
+            ;;
+        "Skip Virus Scan")
+            echo "Skipping ClamAV scan."
+            exit 0
+            ;;
+        *)
+            echo "Invalid option."
+            ;;
+    esac
+done
+
+echo "------------------------------------------"
+echo ">>> Scanning $TARGET for Malware (clamscan)..."
+clamscan -r -i "$TARGET"
+
+echo "------------------------------------------"
+echo "Scan process finished."
