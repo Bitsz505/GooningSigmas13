@@ -8,9 +8,17 @@ fi
 
 #---This finds directory where script is located
 SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
+
 #---Configuration---
 PS3='Select a task(1-8): '
 options=("Delete Software" "Disable SSH" "Enable TCP Cookies" "Enable UFW" "Enact W Policies" "Update System" "Check for Viruses" "Quit")
+
+ #Pre-Check
+ #This fixes line endings for all scripts in the directory to prevent issues with running them on Linux
+echo "Preparing scriprs for execution..."
+dos2unix "$SCRIPT_DIR"/*.sh > /dev/null 2>&1
+chmod +x "$SCRIPT_DIR"/*.sh
+echo "Preparation complete. Launching menu..."
 
 #---Menu Loop---
 clear
@@ -21,9 +29,7 @@ echo "==============================="
 select opt in "${options[@]}"
 do
   case $opt in
-    "Delete Software")
-      dos2unix bulk_delete_software.sh
-      chmod +x bulk_delete_software.sh
+    "Delete Software")  
       read -p "Enter package name(s) to delete (space seperated):  " pkgs
       # Calling the deletion script
       ./bulk_delete_software.sh $pkgs
@@ -32,8 +38,6 @@ do
       ;;
 
     "Disable SSH")
-      dos2unix disable_ssh.sh
-      chmod +x disable_ssh.sh
       echo "Disabling SSH Service.."
       # Calling SSH script
       ./disable_ssh.sh
@@ -42,8 +46,6 @@ do
       ;;
 
     "Enable TCP Cookies")
-      dos2unix enable_tcp_cookies.sh
-      chmod +x enable_tcp_cookies.sh
       echo "Enabling TCP Cookies..."
       # Calling Cookie script
       ./enable_tcp_cookies.sh
@@ -52,8 +54,6 @@ do
       ;;
 
     "Enable UFW")
-      dos2unix enable_ufw.sh
-      chmod +x enable_ufw.sh
       echo "Enabling UFW..."
       # Calling UFW Script
       ./enable_ufw.sh
@@ -62,8 +62,6 @@ do
       ;;
 
     "Enact W Policies")
-      dos2unix good_policies.sh
-      chmod +x good_policies.sh
       read -p "Enter desired minimum length (e.g., 12): " passlen
       # Calling the script with the input as an argument
       ./good_policies.sh "$passlen"
@@ -72,8 +70,6 @@ do
       ;;
       
     "Update System")
-      dos2unix system_updater.sh
-      chmod +x system_updater.sh
       echo "Updating your system..."
       #Calling sys update script
       ./system_updater.sh
@@ -82,10 +78,8 @@ do
       ;;
 
     "Check for Viruses")
-      dos2unix virus_checker.sh
-      chmod +x virus_checker.sh
       echo "Running virus check..."
-      #Calling virus checker sceipr
+      #Calling virus checker script
       ./virus_checker.sh
       echo "Press Enter to return to menu..."
       read 
