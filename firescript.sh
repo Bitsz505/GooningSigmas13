@@ -32,7 +32,7 @@ do
     "Delete Software")  
       read -p "Enter package name(s) to delete (space seperated):  " pkgs
       # Calling the deletion script
-      ./bulk_delete_software.sh $pkgs
+      "$SCRIPT_DIR/bulk_delete_software.sh" $pkgs
       echo "Press Enter to return to menu..."
       read 
       ;;
@@ -40,7 +40,7 @@ do
     "Disable SSH")
       echo "Disabling SSH Service.."
       # Calling SSH script
-      ./disable_ssh.sh
+      "$SCRIPT_DIR/disable_ssh.sh"
       echo "Press Enter to return to menu..."
       read 
       ;;
@@ -48,7 +48,7 @@ do
     "Enable TCP Cookies")
       echo "Enabling TCP Cookies..."
       # Calling Cookie script
-      ./enable_tcp_cookies.sh
+      "$SCRIPT_DIR/enable_tcp_cookies.sh"
       echo "Press Enter to return to menu..."
       read 
       ;;
@@ -56,7 +56,7 @@ do
     "Enable UFW")
       echo "Enabling UFW..."
       # Calling UFW Script
-      ./enable_ufw.sh
+      "$SCRIPT_DIR/enable_ufw.sh"
       echo "Press Enter to return to menu..."
       read 
       ;;
@@ -64,7 +64,7 @@ do
     "Enact W Policies")
       read -p "Enter desired minimum length (e.g., 12): " passlen
       # Calling the script with the input as an argument
-      ./good_policies.sh "$passlen"
+      "$SCRIPT_DIR/good_policies.sh" "$passlen"
       echo "Press Enter to return to menu..."
       read 
       ;;
@@ -72,7 +72,7 @@ do
     "Update System")
       echo "Updating your system..."
       #Calling sys update script
-      ./system_updater.sh
+      "$SCRIPT_DIR/system_updater.sh"
       echo "Press Enter to return to menu..."
       read 
       ;;
@@ -80,7 +80,7 @@ do
     "Check for Viruses")
       echo "Running virus check..."
       #Calling virus checker script
-      ./virus_checker.sh
+      "$SCRIPT_DIR/virus_checker.sh"
       echo "Press Enter to return to menu..."
       read 
       ;;
