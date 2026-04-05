@@ -6,6 +6,8 @@ if [ "$EUID" -ne 0 ]; then
   exit 1
 fi
 
+#---This finds directory where script is located
+SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
 #---Configuration---
 PS3='Select a task(1-8): '
 options=("Delete Software" "Disable SSH" "Enable TCP Cookies" "Enable UFW" "Enact W Policies" "Update System" "Check for Viruses" "Quit")
@@ -62,7 +64,7 @@ do
     "Enact W Policies")
       dos2unix good_policies.sh
       chmod +x good_policies.sh
-      read -p "Enter desired minimum length (e.g., 120: " passlen
+      read -p "Enter desired minimum length (e.g., 12): " passlen
       # Calling the script with the input as an argument
       ./good_policies.sh "$passlen"
       echo "Press Enter to return to menu..."
