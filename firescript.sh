@@ -11,7 +11,7 @@ SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
 
 #---Configuration---
 PS3='Select a task(1-8): '
-options=("Delete Software" "Disable SSH" "Enable TCP Cookies" "Enable UFW" "Enact W Policies" "Update System" "Check for Viruses" "Quit")
+options=("Delete Software" "Disable SSH" "Enable TCP Cookies" "Enable UFW" "Enact W Policies" "Update System" "Check for Viruses" "Enable Real-Time Protection" "Quit")
 
  #Pre-Check
  #This fixes line endings for all scripts in the directory to prevent issues with running them on Linux
@@ -83,6 +83,11 @@ do
       "$SCRIPT_DIR/virus_checker.sh"
       echo "Press Enter to return to menu..."
       read 
+      ;;
+      
+    "Enable Real-Time Protection")
+      echo "Enabling real-time protection..."
+      "$SCRIPT_DIR/enable_realtime_protection.sh"
       ;;
       
     "Quit")
