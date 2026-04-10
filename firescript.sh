@@ -10,7 +10,7 @@ fi
 SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
 
 #---Configuration---
-PS3='Select a task(1-8): '
+PS3='Select a task(1-9): '
 options=("Delete Software" "Disable SSH" "Enable TCP Cookies" "Enable UFW" "Enact W Policies" "Update System" "Check for Viruses" "Enable Real-Time Protection" "Quit")
 
  #Pre-Check
