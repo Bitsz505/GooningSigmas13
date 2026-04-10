@@ -24,7 +24,7 @@ set_minlen() {
 	echo "Setting minimum password length to $new_minlen in $PAM_FILE"
 
 	#1. Back up original file
-	sudo cp   "$PAM_FILE" "$PAM_FILE.bak.$(date +%Y%m%d%H%M%S)"
+	cp   "$PAM_FILE" "$PAM_FILE.bak.$(date +%Y%m%d%H%M%S)"
 	echo "Backup created at $PAM_FILE.bak ..."
 
 	#2. Use sed to replace 'minlen=X' or add 'minlen=Y' to the pam_unix.so line
@@ -34,10 +34,10 @@ set_minlen() {
 	#The script uses a placeholder then a second sed command to avoid combining complex logic
 
 	#First, replace any existing minlenor set a placeholder
-	sduo sed -i '/pam_unix\.so/s/minlen=[0-9]*/REPLACE_MINLEN/' "$PAM_FILE"
+	sed -i '/pam_unix\.so/s/minlen=[0-9]*/REPLACE_MINLEN/' "$PAM_FILE"
 
 	#Second, substitute the place holder w/ a new value or append a new value
-	sudo sed -i '/pam_unix\.so/ {
+	sed -i '/pam_unix\.so/ {
 		/REPLACE_MINLEN/ { s/REPLACE_MINLEN/minlen='$new_minlen'/ }
 		//! s/pam_unix/.so\(.*\)/pam_unix\.so\1 minlen ='$new_minlen'/
 	}' "$PAM_FILE"
@@ -45,10 +45,10 @@ set_minlen() {
 	echo "Configuration updated successfully. New policies will apply upon the next password change."
 
 	#Check if the line contains the new minlen
-	if grep -q "pam_unix.so*minlen=$new_minlen" "$PAM_FILE"; then
+	if grep -q "pam_unix\.so*minlen=$new_minlen" "$PAM_FILE"; then
 		echo "Verification: 'minlen=$new_minlen' is present"
 	else
-		echo "Warning Veification failed. Please check the file manually
+		echo "Warning Veification failed. Please check the file manually"
 	fi
 
 }
@@ -62,11 +62,12 @@ set_minlen "$1"
 sed -i '165s/99999/30/g' /etc/login.defs
 sed -i '166s/0/7/g' /etc/login.defs
 
-echo "ocredit=1
+echo "
+ocredit=1
 ucredit=1
 lcredit=1
 dcredit=1
-minlen=12" >> etc/login.defs
+minlen=12" >> /etc/login.defs
 
 #That's all for the password stuff. Next is our root stuff
 
